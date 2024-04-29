@@ -1,7 +1,9 @@
 package http
 
 import (
+	"embed"
 	"errors"
+	"net/http"
 	"strings"
 
 	"github.com/go-skynet/LocalAI/pkg/utils"
@@ -18,6 +20,7 @@ import (
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 
 	// swagger handler
@@ -41,6 +44,11 @@ func readAuthHeader(c *fiber.Ctx) string {
 
 	return authHeader
 }
+
+// Embed a directory
+//
+//go:embed static/*
+var embedDirStatic embed.FS
 
 // @title LocalAI API
 // @version 2.0.0
@@ -172,6 +180,12 @@ func App(cl *config.BackendConfigLoader, ml *model.ModelLoader, appConfig *confi
 	routes.RegisterPagesRoutes(app, cl, ml, appConfig, auth)
 	routes.RegisterUIRoutes(app, cl, ml, appConfig, galleryService, auth)
 	routes.RegisterJINARoutes(app, cl, ml, appConfig, auth)
+
+	app.Use("/static", filesystem.New(filesystem.Config{
+		Root:       http.FS(embedDirStatic),
+		PathPrefix: "static",
+		Browse:     true,
+	}))
 
 	// Define a custom 404 handler
 	// Note: keep this at the bottom!

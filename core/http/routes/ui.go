@@ -166,4 +166,30 @@ func RegisterUIRoutes(app *fiber.App,
 
 		return c.SendString(elements.DoneProgress(c.Params("uid"), displayText))
 	})
+
+	// Show the Chat page
+	app.Get("/chat/:model", auth, func(c *fiber.Ctx) error {
+		backendConfigs := cl.GetAllBackendConfigs()
+
+		summary := fiber.Map{
+			"Title":        "LocalAI - Chat with " + c.Params("model"),
+			"ModelsConfig": backendConfigs,
+			"Model":        c.Params("model"),
+		}
+
+		// Render index
+		return c.Render("views/chat", summary)
+	})
+	app.Get("/chat/", auth, func(c *fiber.Ctx) error {
+		backendConfigs := cl.GetAllBackendConfigs()
+
+		summary := fiber.Map{
+			"Title":        "LocalAI - Chat with " + backendConfigs[0].Name,
+			"ModelsConfig": backendConfigs,
+			"Model":        backendConfigs[0].Name,
+		}
+
+		// Render index
+		return c.Render("views/chat", summary)
+	})
 }
