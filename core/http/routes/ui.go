@@ -181,7 +181,12 @@ func RegisterUIRoutes(app *fiber.App,
 		return c.Render("views/chat", summary)
 	})
 	app.Get("/chat/", auth, func(c *fiber.Ctx) error {
+
 		backendConfigs := cl.GetAllBackendConfigs()
+
+		if len(backendConfigs) == 0 {
+			return c.SendString("No models available")
+		}
 
 		summary := fiber.Map{
 			"Title":        "LocalAI - Chat with " + backendConfigs[0].Name,

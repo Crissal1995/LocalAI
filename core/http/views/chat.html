@@ -27,48 +27,13 @@ SOFTWARE.
 -->
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
-
-    <link rel="stylesheet" type="text/css" href="/static/styles.css" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/styles/default.min.css"
-    />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"
-    ></script>
-    <link href="/assets/github-dark.css" rel="stylesheet" />
-
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
-    ></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"
-    ></script>
-
-    <script defer src="/static/main.js"></script>
-
-    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-    <link rel="manifest" href="/assets/manifest.json" />
-
-    <title>ChatAPI</title>
-  </head>
-  <body x-data="{ key: $store.chat.key }">
-    <header x-data="{ component: 'menu' }">
+  {{template "views/partials/head" .}}
+  <body class="bg-gray-900 p-4 text-white font-sans" x-data="{ key: $store.chat.key }">
+    {{template "views/partials/navbar"}}
+    <div class="chat-container bg-gray-800 shadow-lg rounded-lg" >
+     <!-- Chat Header -->
+    <div class="border-b border-gray-700 p-4"  x-data="{ component: 'menu' }">
+      <h1 class="text-lg font-semibold">Talk to '{{.Name}}'</h1>
       <div x-show="component === 'menu'" id="menu">
         <h1>💭 ChatAPI</h1>
         <button
@@ -106,9 +71,9 @@ SOFTWARE.
           🔒
         </button>
       </form>
-    </header>
+    </div>
 
-    <main id="chat" x-data="{history: $store.chat.history}">
+    <div class="chat-messages p-4" id="chat" x-data="{history: $store.chat.history}">
       <p id="usage" x-show="history.length === 0">
         Prefix your prompt with '!img' to generate images.<br />
         Find the project on
@@ -126,9 +91,9 @@ SOFTWARE.
           </template>
         </div>
       </template>
-    </main>
+    </div>
 
-    <footer>
+    <div class="p-4 border-t border-gray-700">
 
       <input id="chat-model" type="hidden" value="{{.Model}}">
       <form id="prompt" action="/chat/{{.Model}}" method="get">
@@ -138,11 +103,12 @@ SOFTWARE.
           name="input"
           placeholder="Prompt…"
           autocomplete="off"
+          class="p-2 border rounded w-full bg-gray-600 text-white placeholder-gray-300"
           required
         />
         <button type="submit" title="Submit prompt">🚀</button>
       </form>
-    </footer>
+    </div>
 
     <script>
       document.addEventListener("alpine:init", () => {

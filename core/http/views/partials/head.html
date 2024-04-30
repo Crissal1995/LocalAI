@@ -2,6 +2,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
+    <script
+    defer
+    src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"
+  ></script>
+    <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+  ></script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+  ></script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"
+  ></script>
+
+  <script defer src="/static/main.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link
     href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
@@ -30,6 +48,16 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            overflow: hidden; 
+        }
+        .chat-container { height: 90vh; display: flex; flex-direction: column; }
+        .chat-messages { overflow-y: auto; flex-grow: 1; }
+        .htmx-indicator{
+                opacity:0;
+                transition: opacity 10ms ease-in;
+        }
+        .htmx-request .htmx-indicator{
+            opacity:1
         }
         /* Loader (https://cssloaders.github.io/) */
         .loader {
