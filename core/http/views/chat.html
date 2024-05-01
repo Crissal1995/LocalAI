@@ -43,9 +43,6 @@ SOFTWARE.
       <div class="flex items-center justify-between">
 
       <h1 class="text-lg font-semibold">Chat with {{.Model}}</h1>
-
- 
-
       <div x-show="component === 'menu'" id="menu">
         <button
           @click="$store.chat.clear()"
@@ -59,7 +56,6 @@ SOFTWARE.
           Clear chat 🔥
         </button>
         <button @click="component = 'key'" title="Update API key"
-        
         class="m-2 float-right inline-block rounded bg-primary px-6 pb-2.5 mb-3 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
         >Set API Key🔑</button>
       </div>
@@ -103,6 +99,7 @@ SOFTWARE.
         >.
         -->
       </p>
+      <div id="messages">
       <template x-for="message in history">
         <div class="message">
           <template x-if="message.role === 'user'">
@@ -113,9 +110,11 @@ SOFTWARE.
           </template>
         </div>
       </template>
+      </div>
     </div>
 
     <div class="p-4 border-t border-gray-700">
+      <div id="loader" class="my-2 loader" style="display: none;" ></div>
       <input id="chat-model" type="hidden" value="{{.Model}}">
       <form id="prompt" action="/chat/{{.Model}}" method="get">
         <input

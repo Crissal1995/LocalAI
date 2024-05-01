@@ -67,6 +67,13 @@ function submitKey(event) {
   
   async function promptGPT(key, input) {
     const model = document.getElementById("chat-model").value;
+    // Set class "loader" to the element with "loader" id
+    //document.getElementById("loader").classList.add("loader");
+    // Make the "loader" visible
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("input").disabled = true;
+    document.getElementById('messages').scrollIntoView(false)
+
     // Source: https://stackoverflow.com/a/75751803/11386095
     const response = await fetch("/v1/chat/completions", {
       method: "POST",
@@ -119,10 +126,20 @@ function submitKey(event) {
         }
         hljs.highlightAll();
         Alpine.store("chat").add("assistant", token);
+        document.getElementById('messages').scrollIntoView(false)
       });
       hljs.highlightAll();
       if (dataDone) break;
     }
+    // Remove class "loader" from the element with "loader" id
+    //document.getElementById("loader").classList.remove("loader");
+    document.getElementById("loader").style.display = "none";
+    // enable input
+    document.getElementById("input").disabled = false;
+    // scroll to the bottom of the chat
+    document.getElementById('messages').scrollIntoView(false)
+    // set focus to the input
+    document.getElementById("input").focus();
   }
   
   document.getElementById("key").addEventListener("submit", submitKey);
