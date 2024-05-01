@@ -177,8 +177,9 @@ func App(cl *config.BackendConfigLoader, ml *model.ModelLoader, appConfig *confi
 	routes.RegisterElevenLabsRoutes(app, cl, ml, appConfig, auth)
 	routes.RegisterLocalAIRoutes(app, cl, ml, appConfig, galleryService, auth)
 	routes.RegisterOpenAIRoutes(app, cl, ml, appConfig, auth)
-	routes.RegisterPagesRoutes(app, cl, ml, appConfig, auth)
-	routes.RegisterUIRoutes(app, cl, ml, appConfig, galleryService, auth)
+	if !appConfig.DisableWebUI {
+		routes.RegisterUIRoutes(app, cl, ml, appConfig, galleryService, auth)
+	}
 	routes.RegisterJINARoutes(app, cl, ml, appConfig, auth)
 
 	app.Use("/static", filesystem.New(filesystem.Config{

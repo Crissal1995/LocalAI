@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-skynet/LocalAI/core/config"
 	"github.com/go-skynet/LocalAI/core/http/elements"
+	"github.com/go-skynet/LocalAI/core/http/endpoints/localai"
 	"github.com/go-skynet/LocalAI/core/services"
 	"github.com/go-skynet/LocalAI/pkg/gallery"
 	"github.com/go-skynet/LocalAI/pkg/model"
@@ -22,6 +23,8 @@ func RegisterUIRoutes(app *fiber.App,
 	appConfig *config.ApplicationConfig,
 	galleryService *services.GalleryService,
 	auth func(*fiber.Ctx) error) {
+
+	app.Get("/", auth, localai.WelcomeEndpoint(appConfig, cl, ml))
 
 	// keeps the state of models that are being installed from the UI
 	var installingModels = xsync.NewSyncedMap[string, string]()
