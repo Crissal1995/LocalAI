@@ -44,8 +44,7 @@ jobs:
         include:
           # Extra images
           - build-type: ''
-            #platforms: 'linux/amd64,linux/arm64'
-            platforms: 'linux/amd64'
+            platforms: 'linux/amd64,linux/arm64'
             tag-latest: 'auto'
             tag-suffix: ''
             ffmpeg: ''
@@ -113,8 +112,7 @@ jobs:
             latest-image-aio: 'latest-aio-gpu-nvidia-cuda-12'
             makeflags: "--jobs=3 --output-sync=target"
           - build-type: ''
-            #platforms: 'linux/amd64,linux/arm64'
-            platforms: 'linux/amd64'
+            platforms: 'linux/amd64,linux/arm64'
             tag-latest: 'auto'
             tag-suffix: ''
             ffmpeg: ''
